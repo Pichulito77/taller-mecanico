@@ -43,7 +43,6 @@ def finalize_workorder_and_deduct_inventory(ot: WorkOrder, user_id: int | None =
             tipo="salida",
             cantidad=it.cantidad,
             costo_unitario=part.precio_lista,
-            total_costo=(it.cantidad or 0) * (part.precio_lista or 0),
             referencia=f"OT {ot.numero}",
             ot_id=ot.id,
             user_id=user_id,
