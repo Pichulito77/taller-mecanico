@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}{% endblock %}</title>
   <style>
+    @page { size: A4 portrait; margin: 12mm; }
+    * { box-sizing: border-box; }
     body { font-family: Arial, sans-serif; margin: 24px; color: #222; }
     header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
     .brand { font-size: 22px; font-weight: 800; letter-spacing: 0.5px; }
@@ -18,8 +20,11 @@
     .company-bar { border-top: 3px solid #0b5ed7; padding-top: 6px; }
     .client-bar { border-top: 3px solid #28a745; padding-top: 6px; }
     footer { margin-top: 32px; font-size: 11px; color: #666; border-top: 1px dashed #bbb; padding-top: 8px; }
-    .page { page-break-inside: avoid; min-height: 260mm; }
-    @media print { .no-print { display: none; } }
+    .page { page-break-inside: avoid; min-height: 270mm; }
+    @media print { 
+      .no-print { display: none; }
+      body { margin: 0; }
+    }
   </style>
 </head>
 <body class="{% if variant == 'cliente' %}client-bar{% else %}company-bar{% endif %}">
