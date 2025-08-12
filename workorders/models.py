@@ -1,6 +1,12 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.db.models import F, DecimalField
+try:
+    # Django 5+: GeneratedField available
+    from django.db.models import GeneratedField  # type: ignore
+except Exception:  # pragma: no cover
+    GeneratedField = None  # fallback for older versions
 
 from customers.models import Cliente, Vehiculo
 
@@ -57,7 +63,6 @@ class WorkOrder(models.Model):
         return f"OT {self.numero} — {self.estado}"
 
     def clean(self) -> None:
-        # Asegurar NULL si viene 0 o vacío
         if not self.asignado_a_user_id or self.asignado_a_user_id == 0:
             self.asignado_a_user_id = None
 
@@ -87,7 +92,18 @@ class WorkOrderItem(models.Model):
     cantidad = models.DecimalField(max_digits=12, decimal_places=3)
     precio_unitario = models.DecimalField(max_digits=12, decimal_places=2)
     impuestos = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    total = models.DecimalField(max_digits=14, decimal_places=2, editable=False)
+    if GeneratedField:
+        total = GeneratedField(
+            expression=F("cantidad") * F("precio_unitario") + F("impuestos"),
+            output_field=DecimalField(max_digits=14, decimal_places=2),
+            db_persist=True,
+            db_column="total",
+        )
+    else:
+        # Fallback: treat as read-only DecimalField; DB will compute it
+        total = models.DecimalField(
+            max_digits=14, decimal_places=2, editable=False, db_column="total"
+        )
 
     class Meta:
         db_table = "ot_item"
@@ -106,4 +122,10 @@ class WorkOrderItem(models.Model):
 
     def save(self, *args, **kwargs):
         self.full_clean()
+        # Asegurar que no se envía valor para total (DB lo genera)
+        if hasattr(self, "total"):
+            try:
+                delattr(self, "total")
+            except Exception:
+                pass
         return super().save(*args, **kwargs)
