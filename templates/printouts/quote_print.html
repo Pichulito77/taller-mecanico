@@ -1,0 +1,37 @@
+{% extends "printouts/base_print.html" %}
+{% block title %}Presupuesto {{ quote.numero }}{% endblock %}
+{% block content %}
+<header>
+  <div class="brand">Presupuesto {{ quote.numero }}</div>
+  <div class="muted">Variante: {{ variant|default:"empresa" }}</div>
+</header>
+<div>
+  <strong>Cliente:</strong> {{ quote.cliente.razon_social }}<br>
+  <strong>Vehículo:</strong> {{ quote.vehiculo.placa if quote.vehiculo }}
+</div>
+<table>
+  <thead><tr><th>Tipo</th><th>Descripción</th><th>Cant.</th><th>Precio</th><th>Impuestos</th><th>Total</th></tr></thead>
+  <tbody>
+    {% for it in quote.items.all %}
+      <tr>
+        <td>{{ it.tipo }}</td>
+        <td>{{ it.descripcion }}</td>
+        <td>{{ it.cantidad }}</td>
+        <td>{{ it.precio_unitario }}</td>
+        <td>{{ it.impuestos }}</td>
+        <td>{{ it.total }}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="6" class="muted">Sin ítems</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div class="totals">
+  <table>
+    <tr><th>Subtotal</th><td>{{ quote.subtotal }}</td></tr>
+    <tr><th>Impuestos</th><td>{{ quote.impuestos }}</td></tr>
+    <tr><th>Descuento</th><td>{{ quote.descuento }}</td></tr>
+    <tr><th>Total</th><td>{{ quote.total }}</td></tr>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "printouts/base_print.html" %}
+{% block title %}Factura {{ invoice.numero }}{% endblock %}
+{% block content %}
+<header>
+  <div class="brand">Factura {{ invoice.numero }}</div>
+  <div class="muted">Variante: {{ variant|default:"empresa" }}</div>
+</header>
+<div>
+  <strong>Cliente:</strong> {{ invoice.cliente.razon_social }}<br>
+  <strong>Vehículo:</strong> {{ invoice.vehiculo.placa if invoice.vehiculo }}
+</div>
+<table>
+  <thead><tr><th>Tipo</th><th>Descripción</th><th>Cant.</th><th>Precio</th><th>Impuestos</th><th>Total</th></tr></thead>
+  <tbody>
+    {% for it in invoice.items.all %}
+      <tr>
+        <td>{{ it.tipo }}</td>
+        <td>{{ it.descripcion }}</td>
+        <td>{{ it.cantidad }}</td>
+        <td>{{ it.precio_unitario }}</td>
+        <td>{{ it.impuestos }}</td>
+        <td>{{ it.total }}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="6" class="muted">Sin ítems</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div class="totals">
+  <table>
+    <tr><th>Subtotal</th><td>{{ invoice.subtotal }}</td></tr>
+    <tr><th>Impuestos</th><td>{{ invoice.impuestos }}</td></tr>
+    <tr><th>Descuento</th><td>{{ invoice.descuento }}</td></tr>
+    <tr><th>Total</th><td>{{ invoice.total }}</td></tr>
+  </table>
+</div>
+{% endblock %}

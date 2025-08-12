@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% endblock %}</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; color: #222; }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .brand { font-size: 20px; font-weight: bold; }
+    .muted { color: #666; }
+    table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+    th { background: #f5f5f5; text-align: left; }
+    .totals { margin-top: 12px; float: right; width: 40%; }
+    .company { border-top: 3px solid #0b5ed7; }
+    .client { border-top: 3px solid #28a745; }
+    @media print { .no-print { display: none; } }
+  </style>
+</head>
+<body class="{% if variant == 'cliente' %}client{% else %}company{% endif %}">
+  <div class="no-print" style="text-align:right; margin-bottom:8px;">
+    <button onclick="window.print()">Imprimir</button>
+  </div>
+  {% block content %}{% endblock %}
+</body>
+</html>
