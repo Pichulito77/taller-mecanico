@@ -7,7 +7,7 @@ $ErrorActionPreference = "Stop"
 
 # Ensure venv active with PyInstaller installed
 if (-not (Get-Command pyinstaller -ErrorAction SilentlyContinue)) {
-  Write-Host "PyInstaller no encontrado. Activá el venv e instalá: pip install pyinstaller waitress" -ForegroundColor Yellow
+  Write-Host "PyInstaller no encontrado. Activá el venv e instalá: pip install pyinstaller waitress reportlab" -ForegroundColor Yellow
   exit 1
 }
 
