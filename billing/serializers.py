@@ -106,7 +106,7 @@ def emit_invoice_from_quote(quote: Quote, numero_factura: str, emitida_por_user_
         vehiculo=quote.vehiculo,
         presupuesto=quote,
         ot_id=None,
-        emitida_por_user_id=emitida_por_user_id,
+        emitida_por_user_id=None,  # avoid FK to app_user
         estado="emitida",
         fecha_emision=quote.fecha_emision,
         moneda="ARS",
