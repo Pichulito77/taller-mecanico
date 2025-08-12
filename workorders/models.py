@@ -87,7 +87,7 @@ class WorkOrderItem(models.Model):
     cantidad = models.DecimalField(max_digits=12, decimal_places=3)
     precio_unitario = models.DecimalField(max_digits=12, decimal_places=2)
     impuestos = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    total = models.DecimalField(max_digits=14, decimal_places=2)
+    total = models.DecimalField(max_digits=14, decimal_places=2, editable=False)
 
     class Meta:
         db_table = "ot_item"

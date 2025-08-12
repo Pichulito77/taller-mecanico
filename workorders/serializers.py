@@ -70,6 +70,7 @@ class WorkOrderItemSerializer(serializers.ModelSerializer):
             "impuestos",
             "total",
         ]
+        read_only_fields = ("total",)
 
     @transaction.atomic
     def create(self, validated_data):
