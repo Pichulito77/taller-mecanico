@@ -65,10 +65,12 @@ ASGI_APPLICATION = "backend.asgi.application"
 USE_SQLITE = os.getenv("USE_SQLITE", "false").lower() == "true"
 
 if USE_SQLITE:
+    SQLITE_PATH = os.getenv("SQLITE_PATH")
+    default_sqlite_path = BASE_DIR / "db.sqlite3"
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
+            "NAME": SQLITE_PATH if SQLITE_PATH else default_sqlite_path,
         }
     }
 else:
