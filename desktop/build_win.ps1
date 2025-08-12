@@ -24,6 +24,8 @@ pyinstaller --noconfirm --clean `
   --add-data $templates `
   --collect-all reportlab `
   --collect-all xhtml2pdf `
+  --collect-submodules reportlab.graphics `
+  --collect-submodules reportlab.graphics.barcode `
   --hidden-import reportlab.graphics.barcode.code128 `
   --hidden-import reportlab.graphics.barcode.eanbc `
   --hidden-import reportlab.graphics.barcode.usps `
