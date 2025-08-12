@@ -24,6 +24,15 @@ class WorkOrder(models.Model):
         db_column="asignado_a_user_id", null=True, blank=True, default=None
     )
 
+    # Nuevos campos
+    fecha_ingreso = models.DateTimeField(null=True, blank=True, db_column="fecha_ingreso")
+    fecha_salida = models.DateTimeField(null=True, blank=True, db_column="fecha_salida")
+    matricula = models.CharField(max_length=20, null=True, blank=True, db_column="matricula")
+    color = models.CharField(max_length=30, null=True, blank=True, db_column="color")
+    kilometraje = models.IntegerField(null=True, blank=True, db_column="kilometraje")
+    ingresado_en_grua = models.BooleanField(default=False, db_column="ingresado_en_grua")
+    datos_adicionales = models.TextField(null=True, blank=True, db_column="datos_adicionales")
+
     ESTADOS = (
         ("creada", "Creada"),
         ("diagnostico", "Diagnóstico"),
@@ -100,7 +109,6 @@ class WorkOrderItem(models.Model):
             db_column="total",
         )
     else:
-        # Fallback: treat as read-only DecimalField; DB will compute it
         total = models.DecimalField(
             max_digits=14, decimal_places=2, editable=False, db_column="total"
         )

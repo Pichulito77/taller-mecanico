@@ -7,7 +7,9 @@
 </header>
 <div>
   <strong>Cliente:</strong> {{ ot.cliente.razon_social }}<br>
-  <strong>Vehículo:</strong> {{ ot.vehiculo.placa }}
+  <strong>Vehículo:</strong> {{ ot.vehiculo.placa }} — <strong>Matrícula:</strong> {{ ot.matricula|default:ot.vehiculo.placa }} — <strong>Color:</strong> {{ ot.color|default:"-" }} — <strong>KM:</strong> {{ ot.kilometraje|default:"-" }} — <strong>Grua:</strong> {% if ot.ingresado_en_grua %}Sí{% else %}No{% endif %}
+  <br><strong>Ingreso:</strong> {{ ot.fecha_ingreso|date:"Y-m-d H:i" }} — <strong>Salida:</strong> {{ ot.fecha_salida|date:"Y-m-d H:i" }}
+  {% if ot.datos_adicionales %}<br><strong>Datos adicionales:</strong> {{ ot.datos_adicionales }}{% endif %}
 </div>
 <table>
   <thead><tr><th>Tipo</th><th>Descripción</th><th>Cant.</th><th>Precio</th><th>Impuestos</th><th>Total</th></tr></thead>
