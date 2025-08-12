@@ -55,12 +55,22 @@ TEMPLATES = [
 WSGI_APPLICATION = "backend.wsgi.application"
 ASGI_APPLICATION = "backend.asgi.application"
 
-# Database configuration
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    f"postgresql://{os.getenv('DB_USER','tm_user')}:{os.getenv('DB_PASSWORD','tm_pass')}@{os.getenv('DB_HOST','localhost')}:{os.getenv('DB_PORT','5432')}/{os.getenv('DB_NAME','taller_mecanico_dev')}",
-)
-DATABASES = {"default": dj_database_url.parse(DATABASE_URL, conn_max_age=600)}
+# Database configuration (SQLite fallback for CI/tests)
+USE_SQLITE = os.getenv("USE_SQLITE", "false").lower() == "true"
+
+if USE_SQLITE:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+else:
+    DATABASE_URL = os.getenv(
+        "DATABASE_URL",
+        f"postgresql://{os.getenv('DB_USER','tm_user')}:{os.getenv('DB_PASSWORD','tm_pass')}@{os.getenv('DB_HOST','localhost')}:{os.getenv('DB_PORT','5432')}/{os.getenv('DB_NAME','taller_mecanico_dev')}",
+    )
+    DATABASES = {"default": dj_database_url.parse(DATABASE_URL, conn_max_age=600)}
 
 # Time and i18n
 LANGUAGE_CODE = "es-ar"
