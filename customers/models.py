@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Cliente(models.Model):
+    id = models.BigAutoField(db_column="cliente_id", primary_key=True)
     razon_social = models.CharField(max_length=150)
     documento = models.CharField(max_length=50, unique=True, null=True, blank=True)
     email = models.EmailField(max_length=254, null=True, blank=True)
@@ -18,6 +19,7 @@ class Cliente(models.Model):
 
     class Meta:
         db_table = "cliente"
+        managed = False  # table managed externally (SQL schema)
         verbose_name = "Cliente"
         verbose_name_plural = "Clientes"
         ordering = ["razon_social", "id"]
@@ -27,7 +29,13 @@ class Cliente(models.Model):
 
 
 class Vehiculo(models.Model):
-    cliente = models.ForeignKey(Cliente, on_delete=models.RESTRICT, related_name="vehiculos")
+    id = models.BigAutoField(db_column="vehiculo_id", primary_key=True)
+    cliente = models.ForeignKey(
+        Cliente,
+        on_delete=models.RESTRICT,
+        related_name="vehiculos",
+        db_column="cliente_id",
+    )
     placa = models.CharField(max_length=20, unique=True)
     vin = models.CharField(max_length=50, unique=True, null=True, blank=True)
     marca = models.CharField(max_length=50, null=True, blank=True)
@@ -39,6 +47,7 @@ class Vehiculo(models.Model):
 
     class Meta:
         db_table = "vehiculo"
+        managed = False  # table managed externally (SQL schema)
         verbose_name = "Vehículo"
         verbose_name_plural = "Vehículos"
         indexes = [
