@@ -8,6 +8,7 @@ class QuoteAdmin(admin.ModelAdmin):
     search_fields = ("numero", "cliente__razon_social")
     list_filter = ("estado",)
     ordering = ("-id",)
+    exclude = ("creado_por_user_id",)
 
 
 @admin.register(QuoteItem)

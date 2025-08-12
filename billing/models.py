@@ -27,6 +27,10 @@ class Quote(models.Model):  # presupuesto
         managed = False
         ordering = ["-id"]
 
+    def clean(self) -> None:
+        if not self.creado_por_user_id or self.creado_por_user_id == 0:
+            self.creado_por_user_id = None
+
 
 class QuoteItem(models.Model):  # presupuesto_item
     id = models.BigAutoField(db_column="presupuesto_item_id", primary_key=True)
