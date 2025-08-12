@@ -19,12 +19,13 @@ class WorkOrderAdmin(admin.ModelAdmin):
     ordering = ("-id",)
     # Evitar que el admin intente setear un ID inexistente en tabla app_user
     exclude = ("asignado_a_user_id",)
+    readonly_fields = ("fecha_apertura",)
     fieldsets = (
         (None, {
             "fields": ("numero", "cliente", "vehiculo", "estado")
         }),
         ("Fechas", {
-            "fields": ("fecha_ingreso", "fecha_salida", "fecha_apertura", "fecha_cierre")
+            "fields": ("fecha_ingreso", "fecha_salida", "fecha_cierre", "fecha_apertura")
         }),
         ("Vehículo", {
             "fields": ("matricula", "color", "kilometraje", "ingresado_en_grua")
