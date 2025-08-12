@@ -41,7 +41,7 @@ class QuoteItem(models.Model):  # presupuesto_item
     cantidad = models.DecimalField(max_digits=12, decimal_places=3)
     precio_unitario = models.DecimalField(max_digits=12, decimal_places=2)
     impuestos = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    total = models.DecimalField(max_digits=14, decimal_places=2)
+    total = models.DecimalField(max_digits=14, decimal_places=2, editable=False, db_column="total")
 
     class Meta:
         db_table = "presupuesto_item"
@@ -80,7 +80,7 @@ class InvoiceItem(models.Model):  # factura_item
     cantidad = models.DecimalField(max_digits=12, decimal_places=3)
     precio_unitario = models.DecimalField(max_digits=12, decimal_places=2)
     impuestos = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    total = models.DecimalField(max_digits=14, decimal_places=2)
+    total = models.DecimalField(max_digits=14, decimal_places=2, editable=False, db_column="total")
 
     class Meta:
         db_table = "factura_item"
