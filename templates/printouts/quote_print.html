@@ -7,7 +7,7 @@
 </header>
 <div>
   <strong>Cliente:</strong> {{ quote.cliente.razon_social }}<br>
-  <strong>Vehículo:</strong> {{ quote.vehiculo.placa if quote.vehiculo }}
+  <strong>Vehículo:</strong> {% if quote.vehiculo %}{{ quote.vehiculo.placa }}{% else %}-{% endif %}
 </div>
 <table>
   <thead><tr><th>Tipo</th><th>Descripción</th><th>Cant.</th><th>Precio</th><th>Impuestos</th><th>Total</th></tr></thead>
