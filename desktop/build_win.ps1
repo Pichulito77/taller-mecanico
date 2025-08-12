@@ -22,6 +22,13 @@ pyinstaller --noconfirm --clean `
   --name $AppName `
   --onefile `
   --add-data $templates `
+  --collect-all reportlab `
+  --collect-all xhtml2pdf `
+  --hidden-import reportlab.graphics.barcode.code128 `
+  --hidden-import reportlab.graphics.barcode.eanbc `
+  --hidden-import reportlab.graphics.barcode.usps `
+  --hidden-import reportlab.graphics.barcode.pdf417 `
+  --hidden-import reportlab.graphics.barcode.qr `
   $Entry
 
 Write-Host "Build listo en dist\$AppName.exe" -ForegroundColor Green

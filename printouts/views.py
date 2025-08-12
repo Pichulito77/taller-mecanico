@@ -2,11 +2,13 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from workorders.models import WorkOrder
 from billing.models import Quote, Invoice
-from xhtml2pdf import pisa
 from io import BytesIO
 
 
 def render_to_pdf(template_name: str, context: dict) -> HttpResponse:
+    # Lazy import to avoid import-time failures when reportlab/xhtml2pdf are missing from the environment
+    from xhtml2pdf import pisa
+
     html = render(None, template_name, context).content.decode("utf-8")
     result = BytesIO()
     pisa_status = pisa.CreatePDF(html, dest=result)
