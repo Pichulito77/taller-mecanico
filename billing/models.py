@@ -8,7 +8,13 @@ class Quote(models.Model):  # presupuesto
     cliente = models.ForeignKey(Cliente, on_delete=models.RESTRICT, db_column="cliente_id")
     vehiculo = models.ForeignKey(Vehiculo, on_delete=models.SET_NULL, null=True, db_column="vehiculo_id")
     creado_por_user_id = models.BigIntegerField(db_column="creado_por_user_id", null=True)
-    estado = models.CharField(max_length=12)
+    ESTADOS = (
+        ("borrador", "Borrador"),
+        ("aprobado", "Aprobado"),
+        ("rechazado", "Rechazado"),
+        ("anulado", "Anulado"),
+    )
+    estado = models.CharField(max_length=12, choices=ESTADOS, default="borrador")
     observaciones = models.TextField(null=True, blank=True)
     fecha_emision = models.DateTimeField()
     subtotal = models.DecimalField(max_digits=14, decimal_places=2, default=0)
