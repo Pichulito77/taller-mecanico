@@ -17,6 +17,8 @@ class WorkOrderAdmin(admin.ModelAdmin):
     search_fields = ("numero", "cliente__razon_social", "vehiculo__placa")
     list_filter = ("estado",)
     ordering = ("-id",)
+    # Evitar que el admin intente setear un ID inexistente en tabla app_user
+    exclude = ("asignado_a_user_id",)
 
 
 @admin.register(WorkOrderItem)
