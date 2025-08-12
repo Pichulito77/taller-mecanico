@@ -69,10 +69,10 @@ class WorkOrder(models.Model):
     @staticmethod
     def is_valid_transition(old: str, new: str) -> bool:
         allowed = {
-            "creada": {"diagnostico", "cancelada"},
-            "diagnostico": {"en_proceso", "en_espera", "cancelada"},
+            "creada": {"diagnostico", "cancelada", "finalizada"},
+            "diagnostico": {"en_proceso", "en_espera", "cancelada", "finalizada"},
             "en_proceso": {"en_espera", "finalizada", "cancelada"},
-            "en_espera": {"en_proceso", "cancelada"},
+            "en_espera": {"en_proceso", "cancelada", "finalizada"},
             "finalizada": {"entregada"},
             "entregada": set(),
             "cancelada": set(),
