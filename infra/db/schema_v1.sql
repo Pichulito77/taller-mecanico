@@ -141,9 +141,19 @@ CREATE TABLE IF NOT EXISTS movimiento_inventario (
   fecha TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 CREATE INDEX IF NOT EXISTS idx_mov_inv_repuesto_fecha ON movimiento_inventario (repuesto_id, fecha);
-ALTER TABLE movimiento_inventario
-  ADD CONSTRAINT IF NOT EXISTS movimiento_inventario_ot_fk
-  FOREIGN KEY (ot_id) REFERENCES orden_trabajo(ot_id) ON DELETE SET NULL;
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'movimiento_inventario_ot_fk'
+    ) THEN
+        ALTER TABLE movimiento_inventario
+        ADD CONSTRAINT movimiento_inventario_ot_fk
+        FOREIGN KEY (ot_id) REFERENCES orden_trabajo(ot_id) ON DELETE SET NULL;
+    END IF;
+END
+$$;
 
 -- Agenda / Turnos
 CREATE TABLE IF NOT EXISTS turno (
