@@ -1,5 +1,10 @@
 from django.db import models
 from customers.models import Cliente, Vehiculo
+from django.db.models import F, DecimalField
+try:
+    from django.db.models import GeneratedField  # Django 5+
+except Exception:  # pragma: no cover
+    GeneratedField = None
 
 
 class Quote(models.Model):  # presupuesto
@@ -41,7 +46,15 @@ class QuoteItem(models.Model):  # presupuesto_item
     cantidad = models.DecimalField(max_digits=12, decimal_places=3)
     precio_unitario = models.DecimalField(max_digits=12, decimal_places=2)
     impuestos = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    total = models.DecimalField(max_digits=14, decimal_places=2, editable=False, db_column="total")
+    if GeneratedField:
+        total = GeneratedField(
+            expression=F("cantidad") * F("precio_unitario") + F("impuestos"),
+            output_field=DecimalField(max_digits=14, decimal_places=2),
+            db_persist=True,
+            db_column="total",
+        )
+    else:
+        total = models.DecimalField(max_digits=14, decimal_places=2, editable=False, db_column="total")
 
     class Meta:
         db_table = "presupuesto_item"
@@ -80,7 +93,15 @@ class InvoiceItem(models.Model):  # factura_item
     cantidad = models.DecimalField(max_digits=12, decimal_places=3)
     precio_unitario = models.DecimalField(max_digits=12, decimal_places=2)
     impuestos = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    total = models.DecimalField(max_digits=14, decimal_places=2, editable=False, db_column="total")
+    if GeneratedField:
+        total = GeneratedField(
+            expression=F("cantidad") * F("precio_unitario") + F("impuestos"),
+            output_field=DecimalField(max_digits=14, decimal_places=2),
+            db_persist=True,
+            db_column="total",
+        )
+    else:
+        total = models.DecimalField(max_digits=14, decimal_places=2, editable=False, db_column="total")
 
     class Meta:
         db_table = "factura_item"
