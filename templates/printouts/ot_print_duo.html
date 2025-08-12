@@ -1,7 +1,7 @@
 {% extends "printouts/base_print.html" %}
 {% block title %}OT {{ ot.numero }} — Doble Vía{% endblock %}
 {% block content %}
-<section>
+<section class="page" style="page-break-after: always;">
   <header>
     <div class="brand">Orden de Trabajo {{ ot.numero }} — Vía Empresa</div>
   </header>
@@ -35,8 +35,7 @@
     </table>
   </div>
 </section>
-<hr style="margin:24px 0; border: 0; border-top: 2px dashed #aaa;">
-<section>
+<section class="page">
   <header>
     <div class="brand">Orden de Trabajo {{ ot.numero }} — Vía Cliente</div>
   </header>
