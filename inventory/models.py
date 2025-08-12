@@ -1,4 +1,9 @@
 from django.db import models
+from django.db.models import F, DecimalField
+try:
+    from django.db.models import GeneratedField  # Django 5+
+except Exception:  # pragma: no cover
+    GeneratedField = None
 
 
 class Part(models.Model):
@@ -30,7 +35,15 @@ class InventoryMove(models.Model):
     tipo = models.CharField(max_length=10)  # entrada, salida, ajuste
     cantidad = models.DecimalField(max_digits=12, decimal_places=3)
     costo_unitario = models.DecimalField(max_digits=12, decimal_places=2)
-    total_costo = models.DecimalField(max_digits=14, decimal_places=2, editable=False, db_column="total_costo")
+    if GeneratedField:
+        total_costo = GeneratedField(
+            expression=F("cantidad") * F("costo_unitario"),
+            output_field=DecimalField(max_digits=14, decimal_places=2),
+            db_persist=True,
+            db_column="total_costo",
+        )
+    else:
+        total_costo = models.DecimalField(max_digits=14, decimal_places=2, editable=False, db_column="total_costo")
     referencia = models.TextField(null=True, blank=True)
     ot_id = models.BigIntegerField(null=True, blank=True)
     user_id = models.BigIntegerField(null=True, blank=True)
