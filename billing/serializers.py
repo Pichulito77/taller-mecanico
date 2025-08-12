@@ -43,6 +43,17 @@ class QuoteSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ("subtotal", "impuestos", "total")
 
+    def create(self, validated_data):
+        # Evitar FK hacia app_user; dejamos NULL
+        validated_data["creado_por_user_id"] = None
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        # No permitir setear creado_por_user_id; mantener o poner NULL
+        if "creado_por_user_id" in validated_data:
+            validated_data["creado_por_user_id"] = instance.creado_por_user_id or None
+        return super().update(instance, validated_data)
+
 
 class InvoiceItemSerializer(serializers.ModelSerializer):
     class Meta:
