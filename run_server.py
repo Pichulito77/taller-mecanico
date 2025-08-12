@@ -23,6 +23,11 @@ from backend.wsgi import application  # noqa: E402
 def main() -> None:
     # Apply migrations
     call_command("migrate", interactive=False, verbosity=1)
+    # Collect static for admin UI
+    try:
+        call_command("collectstatic", interactive=False, verbosity=0, clear=False, link=False)
+    except Exception:
+        pass
     # Seed base roles/permissions (best-effort)
     try:
         call_command("seed_roles")
