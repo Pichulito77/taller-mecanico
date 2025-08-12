@@ -30,7 +30,7 @@ class InventoryMove(models.Model):
     tipo = models.CharField(max_length=10)  # entrada, salida, ajuste
     cantidad = models.DecimalField(max_digits=12, decimal_places=3)
     costo_unitario = models.DecimalField(max_digits=12, decimal_places=2)
-    total_costo = models.DecimalField(max_digits=14, decimal_places=2)
+    total_costo = models.DecimalField(max_digits=14, decimal_places=2, editable=False, db_column="total_costo")
     referencia = models.TextField(null=True, blank=True)
     ot_id = models.BigIntegerField(null=True, blank=True)
     user_id = models.BigIntegerField(null=True, blank=True)

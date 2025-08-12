@@ -2,6 +2,7 @@ from decimal import Decimal
 from django.db import transaction
 from rest_framework import serializers
 from .models import WorkOrder, WorkOrderItem
+from .services import finalize_workorder_and_deduct_inventory
 
 
 def recalc_totals(ot: WorkOrder) -> None:
@@ -54,6 +55,23 @@ class WorkOrderSerializer(serializers.ModelSerializer):
         ):
             raise serializers.ValidationError("Transición de estado inválida")
         return value
+
+    @transaction.atomic
+    def update(self, instance, validated_data):
+        estado_nuevo = validated_data.get("estado")
+        if estado_nuevo == "finalizada" and instance.estado != "finalizada":
+            # Validar y descontar inventario
+            finalize_workorder_and_deduct_inventory(instance, user_id=instance.asignado_a_user_id)
+            # Recalcular totales después por si hay cambios
+            recalc_totals(instance)
+            # Merge otros cambios si los hay (diagnóstico/notas)
+            for k, v in validated_data.items():
+                if k != "estado":
+                    setattr(instance, k, v)
+            instance.save()
+            return instance
+        obj = super().update(instance, validated_data)
+        return obj
 
 
 class WorkOrderItemSerializer(serializers.ModelSerializer):
