@@ -22,6 +22,11 @@ def print_ot(request, pk: int):
     return render(request, "printouts/ot_print.html", {"ot": ot, "variant": variant})
 
 
+def print_ot_duo(request, pk: int):
+    ot = get_object_or_404(WorkOrder, pk=pk)
+    return render(request, "printouts/ot_print_duo.html", {"ot": ot})
+
+
 def print_quote(request, pk: int):
     variant = request.GET.get("v", "empresa")
     qt = get_object_or_404(Quote, pk=pk)
@@ -37,6 +42,11 @@ def print_invoice(request, pk: int):
 def pdf_ot(request, pk: int):
     ot = get_object_or_404(WorkOrder, pk=pk)
     return render_to_pdf("printouts/ot_print.html", {"ot": ot, "variant": request.GET.get("v", "empresa")})
+
+
+def pdf_ot_duo(request, pk: int):
+    ot = get_object_or_404(WorkOrder, pk=pk)
+    return render_to_pdf("printouts/ot_print_duo.html", {"ot": ot})
 
 
 def pdf_quote(request, pk: int):

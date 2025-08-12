@@ -1,0 +1,73 @@
+{% extends "printouts/base_print.html" %}
+{% block title %}OT {{ ot.numero }} — Doble Vía{% endblock %}
+{% block content %}
+<section>
+  <header>
+    <div class="brand">Orden de Trabajo {{ ot.numero }} — Vía Empresa</div>
+  </header>
+  <div>
+    <strong>Cliente:</strong> {{ ot.cliente.razon_social }}<br>
+    <strong>Vehículo:</strong> {{ ot.vehiculo.placa }}
+  </div>
+  <table>
+    <thead><tr><th>Tipo</th><th>Descripción</th><th>Cant.</th><th>Precio</th><th>Impuestos</th><th>Total</th></tr></thead>
+    <tbody>
+    {% for it in ot.items.all %}
+      <tr>
+        <td>{{ it.tipo }}</td>
+        <td>{{ it.descripcion }}</td>
+        <td>{{ it.cantidad }}</td>
+        <td>{{ it.precio_unitario }}</td>
+        <td>{{ it.impuestos }}</td>
+        <td>{{ it.total }}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="6" class="muted">Sin ítems</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <div class="totals">
+    <table>
+      <tr><th>Subtotal</th><td>{{ ot.subtotal }}</td></tr>
+      <tr><th>Impuestos</th><td>{{ ot.impuestos }}</td></tr>
+      <tr><th>Descuento</th><td>{{ ot.descuento }}</td></tr>
+      <tr><th>Total</th><td>{{ ot.total }}</td></tr>
+    </table>
+  </div>
+</section>
+<hr style="margin:24px 0; border: 0; border-top: 2px dashed #aaa;">
+<section>
+  <header>
+    <div class="brand">Orden de Trabajo {{ ot.numero }} — Vía Cliente</div>
+  </header>
+  <div>
+    <strong>Cliente:</strong> {{ ot.cliente.razon_social }}<br>
+    <strong>Vehículo:</strong> {{ ot.vehiculo.placa }}
+  </div>
+  <table>
+    <thead><tr><th>Tipo</th><th>Descripción</th><th>Cant.</th><th>Precio</th><th>Impuestos</th><th>Total</th></tr></thead>
+    <tbody>
+    {% for it in ot.items.all %}
+      <tr>
+        <td>{{ it.tipo }}</td>
+        <td>{{ it.descripcion }}</td>
+        <td>{{ it.cantidad }}</td>
+        <td>{{ it.precio_unitario }}</td>
+        <td>{{ it.impuestos }}</td>
+        <td>{{ it.total }}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="6" class="muted">Sin ítems</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <div class="totals">
+    <table>
+      <tr><th>Subtotal</th><td>{{ ot.subtotal }}</td></tr>
+      <tr><th>Impuestos</th><td>{{ ot.impuestos }}</td></tr>
+      <tr><th>Descuento</th><td>{{ ot.descuento }}</td></tr>
+      <tr><th>Total</th><td>{{ ot.total }}</td></tr>
+    </table>
+  </div>
+</section>
+{% endblock %}
