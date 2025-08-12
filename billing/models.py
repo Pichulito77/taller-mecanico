@@ -40,7 +40,8 @@ class Quote(models.Model):  # presupuesto
 class QuoteItem(models.Model):  # presupuesto_item
     id = models.BigAutoField(db_column="presupuesto_item_id", primary_key=True)
     presupuesto = models.ForeignKey(Quote, on_delete=models.CASCADE, db_column="presupuesto_id", related_name="items")
-    tipo = models.CharField(max_length=12)
+    TIPO = (("repuesto", "Repuesto"), ("mano_obra", "Mano de obra"))
+    tipo = models.CharField(max_length=12, choices=TIPO)
     repuesto_id = models.BigIntegerField(null=True, blank=True)
     descripcion = models.TextField()
     cantidad = models.DecimalField(max_digits=12, decimal_places=3)
@@ -87,7 +88,8 @@ class Invoice(models.Model):  # factura
 class InvoiceItem(models.Model):  # factura_item
     id = models.BigAutoField(db_column="factura_item_id", primary_key=True)
     factura = models.ForeignKey(Invoice, on_delete=models.CASCADE, db_column="factura_id", related_name="items")
-    tipo = models.CharField(max_length=12)
+    TIPO = (("repuesto", "Repuesto"), ("mano_obra", "Mano de obra"))
+    tipo = models.CharField(max_length=12, choices=TIPO)
     repuesto_id = models.BigIntegerField(null=True, blank=True)
     descripcion = models.TextField()
     cantidad = models.DecimalField(max_digits=12, decimal_places=3)
