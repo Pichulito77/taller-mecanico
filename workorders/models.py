@@ -14,7 +14,9 @@ class WorkOrder(models.Model):
     vehiculo = models.ForeignKey(
         Vehiculo, on_delete=models.RESTRICT, db_column="vehiculo_id", related_name="ordenes"
     )
-    asignado_a_user_id = models.BigIntegerField(db_column="asignado_a_user_id", null=True, blank=True)
+    asignado_a_user_id = models.BigIntegerField(
+        db_column="asignado_a_user_id", null=True, blank=True, default=None
+    )
 
     ESTADOS = (
         ("creada", "Creada"),
@@ -53,6 +55,11 @@ class WorkOrder(models.Model):
 
     def __str__(self) -> str:
         return f"OT {self.numero} — {self.estado}"
+
+    def clean(self) -> None:
+        # Asegurar NULL si viene 0 o vacío
+        if not self.asignado_a_user_id or self.asignado_a_user_id == 0:
+            self.asignado_a_user_id = None
 
     @staticmethod
     def is_valid_transition(old: str, new: str) -> bool:
