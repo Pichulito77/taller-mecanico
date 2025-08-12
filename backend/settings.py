@@ -58,7 +58,7 @@ ASGI_APPLICATION = "backend.asgi.application"
 # Database configuration
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    f"postgresql+psycopg://{os.getenv('DB_USER','tm_user')}:{os.getenv('DB_PASSWORD','tm_pass')}@{os.getenv('DB_HOST','localhost')}:{os.getenv('DB_PORT','5432')}/{os.getenv('DB_NAME','taller_mecanico_dev')}",
+    f"postgresql://{os.getenv('DB_USER','tm_user')}:{os.getenv('DB_PASSWORD','tm_pass')}@{os.getenv('DB_HOST','localhost')}:{os.getenv('DB_PORT','5432')}/{os.getenv('DB_NAME','taller_mecanico_dev')}",
 )
 DATABASES = {"default": dj_database_url.parse(DATABASE_URL, conn_max_age=600)}
 
