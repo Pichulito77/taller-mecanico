@@ -7,21 +7,39 @@
   <style>
     body { font-family: Arial, sans-serif; margin: 24px; color: #222; }
     header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-    .brand { font-size: 20px; font-weight: bold; }
+    .brand { font-size: 22px; font-weight: 800; letter-spacing: 0.5px; }
+    .logo { padding: 6px 10px; background: #0b5ed7; color: #fff; border-radius: 4px; }
+    .company { text-align: right; font-size: 12px; line-height: 1.3; }
     .muted { color: #666; }
     table { width: 100%; border-collapse: collapse; margin-top: 12px; }
     th, td { border: 1px solid #ddd; padding: 8px; }
     th { background: #f5f5f5; text-align: left; }
     .totals { margin-top: 12px; float: right; width: 40%; }
-    .company { border-top: 3px solid #0b5ed7; }
-    .client { border-top: 3px solid #28a745; }
+    .company-bar { border-top: 3px solid #0b5ed7; padding-top: 6px; }
+    .client-bar { border-top: 3px solid #28a745; padding-top: 6px; }
+    footer { margin-top: 32px; font-size: 11px; color: #666; border-top: 1px dashed #bbb; padding-top: 8px; }
     @media print { .no-print { display: none; } }
   </style>
 </head>
-<body class="{% if variant == 'cliente' %}client{% else %}company{% endif %}">
+<body class="{% if variant == 'cliente' %}client-bar{% else %}company-bar{% endif %}">
   <div class="no-print" style="text-align:right; margin-bottom:8px;">
     <button onclick="window.print()">Imprimir</button>
   </div>
+
+  <header>
+    <div class="brand"><span class="logo">TallerMecanico</span></div>
+    <div class="company">
+      <div><strong>Vía:</strong> {{ variant|default:'empresa'|title }}</div>
+      <div><strong>CUIT:</strong> 20-12345678-9</div>
+      <div><strong>Dirección:</strong> Av. Siempre Viva 123, CABA</div>
+      <div><strong>Tel:</strong> (11) 1234-5678 — <strong>Email:</strong> contacto@tallermecanico.test</div>
+    </div>
+  </header>
+
   {% block content %}{% endblock %}
+
+  <footer>
+    Documento generado automáticamente. Esta copia es de carácter informativo. Las condiciones del servicio y/o garantía se encuentran sujetas a inspección y aceptación del taller. Firma del cliente: ______________________
+  </footer>
 </body>
 </html>
