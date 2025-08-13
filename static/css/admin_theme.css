@@ -1,0 +1,8 @@
+/* Light admin theme */
+:root{ --tp-primary:#0b5ed7; --tp-secondary:#6610f2; --bg:#f7f9fc; }
+body, #container{ background: var(--bg) !important; }
+#header{ background: linear-gradient(135deg, var(--tp-primary), var(--tp-secondary)) !important; }
+#header #branding h1, #header a:link, #header a:visited{ color:#fff !important; }
+.module, .card, .content, .dashboard .module{ border-radius:10px; }
+.submit-row input{ border-radius:8px; }
+.breadcrumbs{ background: transparent; }
