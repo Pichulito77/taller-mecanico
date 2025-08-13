@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: tm_db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-taller_mecanico}
+      POSTGRES_USER: ${POSTGRES_USER:-tm_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-tm_pass}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: ../../
+      dockerfile: infra/docker/Dockerfile.web
+    container_name: tm_web
+    env_file:
+      - ../../.env
+    environment:
+      USE_SQLITE: "false"
+      DATABASE_URL: ${DATABASE_URL:-postgresql://tm_user:tm_pass@db:5432/taller_mecanico}
+      DEBUG: ${DEBUG:-false}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-*}
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  db_data:
