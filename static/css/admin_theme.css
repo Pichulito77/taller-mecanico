@@ -24,3 +24,12 @@ body, #container{ background: var(--pg-bg) !important; font-family:'Inter', syst
 .pg-tabs-nav{list-style:none;margin:0;padding:0;display:flex;gap:6px}
 .pg-tab-btn{background:#374151;border:1px solid #4b5563;color:#e5e7eb;padding:8px 10px;border-radius:10px;cursor:pointer}
 .pg-tab-btn.active{background:#2563EB;border-color:#2563EB}
+
+/* Changelist table enhancements */
+#changelist .results{border-radius:12px;overflow:hidden}
+#changelist .results thead th{position:sticky;top:74px;background:#1f2937 !important;color:#e5e7eb;padding:12px 10px;z-index:2}
+#changelist .results tbody tr:hover{background:#f3f4f6}
+#changelist .results .action-checkbox{width:44px}
+#changelist .results .action-checkbox input[type="checkbox"]{width:18px;height:18px}
+/* Sticky actions bar */
+#changelist-form .actions{position:sticky;top:74px;background:#f3f4f6;padding:10px;border-bottom:1px solid #e5e7eb;z-index:3;border-radius:12px}
