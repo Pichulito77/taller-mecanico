@@ -30,7 +30,24 @@
 <body class="{% if variant == 'cliente' %}client-bar{% else %}company-bar{% endif %}">
   <div class="no-print" style="text-align:right; margin-bottom:8px;">
     <button onclick="window.print()">Imprimir</button>
+    <button onclick="openPdf()">Abrir PDF</button>
   </div>
+  <script>
+    (function() {
+      function autoPrint() { try { window.print(); } catch (e) {} }
+      if (document.readyState === 'complete') {
+        setTimeout(autoPrint, 150);
+      } else {
+        window.addEventListener('load', function(){ setTimeout(autoPrint, 150); });
+      }
+      window.openPdf = function() {
+        try {
+          var url = location.href.replace('/print/', '/pdf/');
+          window.open(url, '_blank');
+        } catch (e) {}
+      };
+    })();
+  </script>
 
   <header>
     <div class="brand"><span class="logo">Taller PG</span></div>
