@@ -1,5 +1,5 @@
 window.PG = (function(){
-	const init = () => {
+	const initTooltips = () => {
 		try{
 			if (window.bootstrap && bootstrap.Tooltip){
 				const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
@@ -24,6 +24,63 @@ window.PG = (function(){
 		return false;
 	};
 	const showAbout = () => toast('Taller PG — Versión local', 'secondary');
+
+	// Admin: change list enhancements (floating + Agregar)
+	const enhanceChangeList = () => {
+		const cl = document.getElementById('changelist');
+		if (!cl) return;
+		const add = document.querySelector('.object-tools .addlink, .addlink');
+		if (!add) return;
+		// Create floating action button in top-right
+		const fab = document.createElement('a');
+		fab.href = add.getAttribute('href');
+		fab.className = 'pg-fab';
+		fab.title = 'Crear nuevo';
+		fab.setAttribute('aria-label','Crear nuevo');
+		fab.textContent = '+';
+		document.body.appendChild(fab);
+	};
+
+	// Admin: change form enhancements (fieldsets to tabs)
+	const enhanceChangeForm = () => {
+		const form = document.querySelector('body.change-form #content form');
+		if (!form) return;
+		const sets = form.querySelectorAll('fieldset');
+		if (sets.length < 2) return; // tabs only if multiple sections
+		// build tabs
+		const nav = document.createElement('div');
+		nav.className = 'pg-tabs';
+		const ul = document.createElement('ul');
+		ul.className = 'pg-tabs-nav';
+		nav.appendChild(ul);
+		sets.forEach((fs, idx) => {
+			const legend = fs.querySelector('h2, legend');
+			const name = legend ? legend.textContent.trim() : `Sección ${idx+1}`;
+			const id = `pg-tab-${idx}`;
+			fs.setAttribute('data-pg-tab', id);
+			const li = document.createElement('li');
+			li.innerHTML = `<button type="button" class="pg-tab-btn" data-target="${id}">${name}</button>`;
+			ul.appendChild(li);
+			if (idx !== 0) fs.style.display = 'none';
+		});
+		form.prepend(nav);
+		ul.addEventListener('click', (e) => {
+			const btn = e.target.closest('.pg-tab-btn');
+			if (!btn) return;
+			const target = btn.getAttribute('data-target');
+			sets.forEach(fs => { fs.style.display = (fs.getAttribute('data-pg-tab') === target) ? '' : 'none'; });
+			ul.querySelectorAll('.pg-tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+		});
+		const firstBtn = ul.querySelector('.pg-tab-btn');
+		if (firstBtn) firstBtn.classList.add('active');
+	};
+
+	const init = () => {
+		initTooltips();
+		enhanceChangeList();
+		enhanceChangeForm();
+	};
+
 	document.addEventListener('DOMContentLoaded', init);
 	return {toast, searchGlobal, showAbout};
 })();
