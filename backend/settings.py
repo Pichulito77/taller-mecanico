@@ -13,7 +13,6 @@ DEBUG = os.getenv("DEBUG", "true").lower() == "true"
 ALLOWED_HOSTS = [os.getenv("ALLOWED_HOSTS", "*")]
 
 INSTALLED_APPS = [
-	"jazzmin",
 	"django.contrib.admin",
 	"django.contrib.auth",
 	"django.contrib.contenttypes",
@@ -111,15 +110,4 @@ REST_FRAMEWORK = {
 	],
 	"DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
 	"PAGE_SIZE": 20,
-}
-
-# Jazzmin basic branding
-JAZZMIN_SETTINGS = {
-	"site_title": "Taller PG Admin",
-	"site_header": "Taller PG",
-	"site_brand": "Taller PG",
-	"welcome_sign": "Bienvenido a Taller PG",
-	"show_ui_builder": False,
-	"custom_css": "css/theme.css",
-	"icons": {},
 }
