@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}UI Kit · Taller PG{% endblock %}
+{% block content %}
+<h2 class="mb-3">UI Kit</h2>
+<div class="row g-3">
+	<div class="col-md-3">
+		<div class="card p-3">
+			<div class="d-flex align-items-center gap-2"><i class="bi bi-speedometer2 fs-4 text-primary"></i><div>
+				<div class="text-secondary small">Órdenes activas</div>
+				<div class="fs-4 fw-semibold">12</div>
+			</div></div>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="card p-3">
+			<div class="d-flex align-items-center gap-2"><i class="bi bi-people fs-4 text-primary"></i><div>
+				<div class="text-secondary small">Clientes</div>
+				<div class="fs-4 fw-semibold">324</div>
+			</div></div>
+		</div>
+	</div>
+</div>
+<hr>
+<h5>Botones</h5>
+<div class="d-flex gap-2 flex-wrap mb-3">
+	<button class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Primario</button>
+	<button class="btn btn-secondary">Secundario</button>
+	<button class="btn btn-outline-primary">Outline</button>
+	<button class="btn btn-danger">Peligro</button>
+	<button class="btn btn-light">Suave</button>
+</div>
+<h5>Badges</h5>
+<div class="d-flex gap-2 mb-3">
+	<span class="badge text-bg-secondary">Pendiente</span>
+	<span class="badge text-bg-warning">En curso</span>
+	<span class="badge text-bg-success">Listo</span>
+	<span class="badge text-bg-primary">Entregado</span>
+</div>
+<h5>Tabla con filtros</h5>
+<div class="card p-3 mb-3">
+	<form class="row g-2 mb-2">
+		<div class="col-sm-4"><input type="text" class="form-control" placeholder="Buscar..."></div>
+		<div class="col-sm-3"><select class="form-select"><option>Estado</option><option>Pendiente</option><option>En curso</option></select></div>
+		<div class="col-sm-4"><input type="date" class="form-control"></div>
+		<div class="col-sm-1 text-end"><button class="btn btn-primary w-100"><i class="bi bi-search"></i></button></div>
+	</form>
+	<div class="table-responsive">
+		<table class="table align-middle">
+			<thead><tr><th>#</th><th>Orden</th><th>Cliente</th><th>Estado</th><th>Total</th><th></th></tr></thead>
+			<tbody>
+				<tr><td>1</td><td>OT-00015</td><td>Juan Pérez</td><td><span class="badge text-bg-warning">En curso</span></td><td>$ 150.000</td><td><button class="btn btn-sm btn-outline-primary">Ver</button></td></tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<h5>Toasts y Modal</h5>
+<div class="d-flex gap-2">
+	<button class="btn btn-secondary" onclick="PG.toast('Acción realizada','secondary')">Toast</button>
+	<button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#pgModal">Confirmar</button>
+</div>
+{% endblock %}

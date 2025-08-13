@@ -1,43 +1,34 @@
-<!doctype html>
-<html lang="es">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Taller PG</title>
-	<style>
-		:root{ --tp-primary:#0b5ed7; --tp-secondary:#6610f2; }
-		body{font-family:Arial, sans-serif;margin:0;color:#222}
-		.header{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;background:linear-gradient(135deg,var(--tp-primary),var(--tp-secondary));color:#fff}
-		.brand{display:flex;align-items:center;gap:10px}
-		.logo{width:36px;height:36px;background:#fff;border-radius:8px}
-		h1{margin:0;font-size:20px;letter-spacing:.5px}
-		.container{padding:20px 24px}
-		.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:16px}
-		.card{border:1px solid #ddd;border-radius:10px;padding:16px;cursor:pointer;transition:.15s}
-		.card:hover{box-shadow:0 2px 10px rgba(0,0,0,.08)}
-		.card a{text-decoration:none;color:inherit;display:block}
-		.small{color:#666;font-size:13px}
-		.btn{background:#fff;color:#222;border:none;border-radius:8px;padding:10px 14px;cursor:pointer}
-	</style>
-</head>
-<body class="launcher">
-	<div class="header">
-		<div class="brand">
-			<div class="logo"></div>
-			<h1>Taller PG</h1>
-		</div>
-		<button class="btn" onclick="location.href='/admin/'">Ir al Admin</button>
+{% extends 'base.html' %}
+{% block title %}Inicio · Taller PG{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-3">
+	<h2 class="m-0">Inicio</h2>
+	<a class="btn btn-primary" href="/admin/workorders/workorder/add/"><i class="bi bi-plus-lg me-1"></i>Nueva Orden</a>
+</div>
+<div class="row g-3 mb-3">
+	<div class="col-md-3"><div class="card p-3"><div class="d-flex align-items-center gap-2"><i class="bi bi-tools fs-4 text-primary"></i><div><div class="text-secondary small">Órdenes activas</div><div class="fs-4 fw-semibold" id="kpiOt">—</div></div></div></div></div>
+	<div class="col-md-3"><div class="card p-3"><div class="d-flex align-items-center gap-2"><i class="bi bi-people fs-4 text-primary"></i><div><div class="text-secondary small">Clientes</div><div class="fs-4 fw-semibold" id="kpiCli">—</div></div></div></div></div>
+	<div class="col-md-3"><div class="card p-3"><div class="d-flex align-items-center gap-2"><i class="bi bi-car-front fs-4 text-primary"></i><div><div class="text-secondary small">Vehículos</div><div class="fs-4 fw-semibold" id="kpiVeh">—</div></div></div></div></div>
+</div>
+<div class="card p-3">
+	<h5 class="mb-3">Accesos rápidos</h5>
+	<div class="d-flex flex-wrap gap-2">
+		<a class="btn btn-outline-primary" href="/admin/customers/cliente/add/"><i class="bi bi-person-plus me-1"></i>Nuevo cliente</a>
+		<a class="btn btn-outline-primary" href="/admin/customers/vehiculo/add/"><i class="bi bi-car-front me-1"></i>Nuevo vehículo</a>
+		<a class="btn btn-outline-primary" href="/admin/inventory/part/add/"><i class="bi bi-box-seam me-1"></i>Nuevo repuesto</a>
+		<a class="btn btn-outline-primary" href="/admin/workorders/workorder/"><i class="bi bi-tools me-1"></i>Ver órdenes</a>
 	</div>
-	<div class="container">
-		<p class="small">Accesos rápidos</p>
-		<div class="grid">
-			<div class="card"><a href="/admin/customers/cliente/add/">Nuevo cliente</a></div>
-			<div class="card"><a href="/admin/customers/vehiculo/add/">Nuevo vehículo</a></div>
-			<div class="card"><a href="/admin/inventory/part/add/">Nuevo repuesto</a></div>
-			<div class="card"><a href="/admin/workorders/workorder/add/">Nueva OT</a></div>
-			<div class="card"><a href="/api/ot/?ordering=-id&page_size=1" target="_blank">Última OT (API)</a></div>
-			<div class="card"><a href="/health/" target="_blank">Salud del sistema</a></div>
-		</div>
-	</div>
-</body>
-</html>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+(async function(){
+	try{
+		// Estos endpoints pueden requerir login; se usan solo como ejemplo visual
+		const ot = await fetch('/api/ot/?ordering=-id&page_size=1'); if (ot.ok) document.getElementById('kpiOt').textContent = 'OK';
+		const cli = await fetch('/admin/customers/cliente/'); if (cli.ok) document.getElementById('kpiCli').textContent = '—';
+		const veh = await fetch('/admin/customers/vehiculo/'); if (veh.ok) document.getElementById('kpiVeh').textContent = '—';
+	}catch(e){}
+})();
+</script>
+{% endblock %}
