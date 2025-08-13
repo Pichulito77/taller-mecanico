@@ -1,7 +1,11 @@
 window.PG = (function(){
 	const init = () => {
-		const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-		tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el))
+		try{
+			if (window.bootstrap && bootstrap.Tooltip){
+				const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+				tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el))
+			}
+		}catch(e){/* no-op */}
 	};
 	const toast = (msg, variant='primary') => {
 		const c = document.getElementById('pgToasts');
@@ -11,7 +15,7 @@ window.PG = (function(){
 		el.role = 'status'; el.ariaLive='polite'; el.ariaAtomic='true';
 		el.innerHTML = `<div class="d-flex"><div class="toast-body">${msg}</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button></div>`;
 		c.appendChild(el);
-		new bootstrap.Toast(el,{delay:3000}).show();
+		if (window.bootstrap && bootstrap.Toast) new bootstrap.Toast(el,{delay:3000}).show();
 	};
 	const searchGlobal = (form) => {
 		const q = new FormData(form).get('q')||'';
