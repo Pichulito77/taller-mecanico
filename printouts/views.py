@@ -59,3 +59,47 @@ def pdf_quote(request, pk: int):
 def pdf_invoice(request, pk: int):
     inv = get_object_or_404(Invoice, pk=pk)
     return render_to_pdf("printouts/invoice_print.html", {"invoice": inv, "variant": request.GET.get("v", "empresa")})
+
+# By-number helpers
+
+def print_ot_by_num(request, numero: str):
+    ot = get_object_or_404(WorkOrder, numero=numero)
+    variant = request.GET.get("v", "empresa")
+    return render(request, "printouts/ot_print.html", {"ot": ot, "variant": variant})
+
+
+def print_ot_duo_by_num(request, numero: str):
+    ot = get_object_or_404(WorkOrder, numero=numero)
+    return render(request, "printouts/ot_print_duo.html", {"ot": ot})
+
+
+def print_quote_by_num(request, numero: str):
+    qt = get_object_or_404(Quote, numero=numero)
+    variant = request.GET.get("v", "empresa")
+    return render(request, "printouts/quote_print.html", {"quote": qt, "variant": variant})
+
+
+def print_invoice_by_num(request, numero: str):
+    inv = get_object_or_404(Invoice, numero=numero)
+    variant = request.GET.get("v", "empresa")
+    return render(request, "printouts/invoice_print.html", {"invoice": inv, "variant": variant})
+
+
+def pdf_ot_by_num(request, numero: str):
+    ot = get_object_or_404(WorkOrder, numero=numero)
+    return render_to_pdf("printouts/ot_print.html", {"ot": ot, "variant": request.GET.get("v", "empresa")})
+
+
+def pdf_ot_duo_by_num(request, numero: str):
+    ot = get_object_or_404(WorkOrder, numero=numero)
+    return render_to_pdf("printouts/ot_print_duo.html", {"ot": ot})
+
+
+def pdf_quote_by_num(request, numero: str):
+    qt = get_object_or_404(Quote, numero=numero)
+    return render_to_pdf("printouts/quote_print.html", {"quote": qt, "variant": request.GET.get("v", "empresa")})
+
+
+def pdf_invoice_by_num(request, numero: str):
+    inv = get_object_or_404(Invoice, numero=numero)
+    return render_to_pdf("printouts/invoice_print.html", {"invoice": inv, "variant": request.GET.get("v", "empresa")})
