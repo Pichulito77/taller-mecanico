@@ -1,23 +1,64 @@
 :root{
-	--pg-primary:#2563EB; --pg-secondary:#0EA5E9;
+	--pg-primary:#2563EB; --pg-primary-600:#1D4ED8; --pg-secondary:#0EA5E9;
 	--pg-success:#16A34A; --pg-warning:#F59E0B; --pg-danger:#DC2626;
-	--pg-text:#0F172A; --pg-text-2:#475569;
-	--pg-bg:#e2e8f0; /* darker grey background */
-	--pg-card:#FFFFFF;
+	--pg-text:#E5E7EB; --pg-text-2:#cbd5e1;
+	--pg-bg:#0B1020; /* dark matte */
+	--pg-card:#111827;
+	--pg-border:#334155;
 	--pg-radius:12px;
 }
 body{font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;color:var(--pg-text);background:var(--pg-bg)}
-/* Darker, neutral navbar */
-.pg-navbar{background:linear-gradient(135deg,#334155,#1f2937)}
-/* Dark sidebar with light links */
-.pg-sidebar{width:240px;min-height:calc(100vh - 56px);background:#334155;border-right:none;display:flex;flex-direction:column;gap:12px}
+/* Navbar/Sidebar keep from previous rules if present */
+.pg-navbar{background:linear-gradient(135deg,#374151,#111827)}
+.pg-sidebar{width:240px;min-height:calc(100vh - 56px);background:#1f2937;border-right:none;display:flex;flex-direction:column;gap:12px}
 .pg-side-link{display:block;padding:10px 12px;border-radius:8px;color:#cbd5e1;text-decoration:none}
-.pg-side-link:hover{background:#475569;color:#fff}
+.pg-side-link:hover{background:#374151;color:#fff}
 .pg-content{min-height:calc(100vh - 56px);}
-.pg-footer{border-top:1px solid rgba(0,0,0,.06);background:#f1f5f9}
-.card{border-radius:var(--pg-radius);box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.btn{border-radius:var(--pg-radius)}
-.badge{border-radius:999px}
-.table thead th{color:var(--pg-text-2)}
-/* Empty state */
-.pg-empty{background:#fff;border:1px dashed #cbd5e1;border-radius:var(--pg-radius);padding:32px;text-align:center;color:var(--pg-text-2)}
+.pg-footer{border-top:1px solid rgba(255,255,255,.06);background:#0f172a;color:#94a3b8}
+.card{border-radius:var(--pg-radius);box-shadow:0 2px 8px rgba(0,0,0,.35);background:var(--pg-card);color:var(--pg-text)}
+
+/* Button library */
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem .9rem;border-radius:.75rem;border:1px solid var(--pg-border);background:#1f2937;color:var(--pg-text);font-weight:600;line-height:1;transition:background-color .2s, box-shadow .2s, border-color .2s; text-decoration:none}
+.btn:hover{background:#27324a}
+.btn:active{transform:translateY(0)}
+.btn:focus-visible{outline:3px solid rgba(37,99,235,.5);outline-offset:2px}
+.btn[disabled], .btn.disabled{opacity:.6;cursor:not-allowed}
+
+.btn-primary{background:var(--pg-primary);border-color:transparent;color:#fff}
+.btn-primary:hover{background:var(--pg-primary-600)}
+
+.btn-outline{background:transparent;border-color:var(--pg-border);color:#cbd5e1}
+.btn-outline:hover{background:#162033}
+
+.btn-danger{background:var(--pg-danger);border-color:transparent;color:#fff}
+.btn-danger:hover{background:#b91c1c}
+
+.btn-icon{padding:.45rem .7rem}
+.btn-icon::before{content:"+";font-weight:900;margin-right:.25rem}
+.btn-sm{padding:.35rem .6rem;font-size:.875rem;border-radius:.6rem}
+.btn-lg{padding:.75rem 1.1rem;font-size:1.05rem;border-radius:.9rem}
+
+/* Admin add links as buttons (no Python edits) */
+.object-tools .addlink,
+.addlink,
+.module .addlink,
+.inlinechangelink{
+	display:inline-flex;align-items:center;gap:.4rem;padding:.4rem .7rem;border-radius:.6rem;border:1px solid var(--pg-border);
+	background:var(--pg-primary);color:#fff !important;font-weight:700;text-decoration:none !important;
+}
+.object-tools .addlink::before,
+.addlink::before,
+.module .addlink::before,
+.inlinechangelink::before{content:"+";font-weight:900;}
+.object-tools .addlink:hover,
+.addlink:hover,
+.module .addlink:hover,
+.inlinechangelink:hover{background:var(--pg-primary-600)}
+.object-tools .addlink:focus-visible,
+.addlink:focus-visible,
+.module .addlink:focus-visible,
+.inlinechangelink:focus-visible{outline:3px solid rgba(37,99,235,.5);outline-offset:2px}
+
+/* Tables & empty state */
+.table thead th{color:#94a3b8}
+.pg-empty{background:#0f172a;border:1px dashed #475569;border-radius:var(--pg-radius);padding:32px;text-align:center;color:#94a3b8}
