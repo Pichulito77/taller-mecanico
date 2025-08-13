@@ -1,55 +1,65 @@
 from django.contrib import admin
+from django.utils.html import format_html
+from django.urls import reverse
 from .models import WorkOrder, WorkOrderItem
 
 
 @admin.register(WorkOrder)
 class WorkOrderAdmin(admin.ModelAdmin):
-    list_display = (
-        "id",
-        "numero",
-        "cliente",
-        "vehiculo",
-        "estado",
-        "asignado_a_user_id",
-        "total",
-        "fecha_apertura",
-    )
-    search_fields = ("numero", "cliente__razon_social", "vehiculo__placa")
-    list_filter = ("estado",)
-    ordering = ("-id",)
-    # Evitar que el admin intente setear un ID inexistente en tabla app_user
-    exclude = ("asignado_a_user_id",)
-    readonly_fields = ("fecha_apertura",)
-    fieldsets = (
-        (None, {
-            "fields": ("numero", "cliente", "vehiculo", "estado")
-        }),
-        ("Fechas", {
-            "fields": ("fecha_ingreso", "fecha_salida", "fecha_cierre", "fecha_apertura")
-        }),
-        ("Vehículo", {
-            "fields": ("matricula", "color", "kilometraje", "ingresado_en_grua")
-        }),
-        ("Detalles", {
-            "fields": ("diagnostico", "notas", "datos_adicionales")
-        }),
-        ("Totales", {
-            "fields": ("subtotal", "impuestos", "descuento", "total")
-        }),
-    )
+	list_display = (
+		"id",
+		"numero",
+		"cliente",
+		"vehiculo",
+		"estado",
+		"total",
+		"fecha_apertura",
+		"acciones",
+	)
+	search_fields = ("numero", "cliente__razon_social", "vehiculo__placa")
+	list_filter = ("estado",)
+	ordering = ("-id",)
+	list_editable = ("estado",)
+	exclude = ("asignado_a_user_id",)
+	readonly_fields = ("fecha_apertura",)
+	fieldsets = (
+		(None, {"fields": ("numero", "cliente", "vehiculo", "estado")}),
+		("Fechas", {"fields": ("fecha_ingreso", "fecha_salida", "fecha_cierre", "fecha_apertura")}),
+		("Vehículo", {"fields": ("matricula", "color", "kilometraje", "ingresado_en_grua")}),
+		("Detalles", {"fields": ("diagnostico", "notas", "datos_adicionales")}),
+		("Totales", {"fields": ("subtotal", "impuestos", "descuento", "total")}),
+	)
+
+	actions = ("finalizar_seleccionadas",)
+
+	def acciones(self, obj: WorkOrder):
+		url_print = reverse("print_ot", args=[obj.id])
+		url_pdf = reverse("pdf_ot", args=[obj.id])
+		return format_html(
+			'<a class="button" href="{}" target="_blank">Imprimir</a> '
+			'<a class="button" href="{}" target="_blank">PDF</a>',
+			url_print,
+			url_pdf,
+		)
+
+	def finalizar_seleccionadas(self, request, queryset):
+		updated = queryset.update(estado="finalizada")
+		self.message_user(request, f"{updated} OTs finalizadas")
+
+	finalizar_seleccionadas.short_description = "Finalizar OTs seleccionadas"
 
 
 @admin.register(WorkOrderItem)
 class WorkOrderItemAdmin(admin.ModelAdmin):
-    list_display = (
-        "id",
-        "workorder",
-        "tipo",
-        "descripcion",
-        "cantidad",
-        "precio_unitario",
-        "total",
-    )
-    search_fields = ("descripcion",)
-    list_filter = ("tipo",)
-    autocomplete_fields = ("workorder",)
+	list_display = (
+		"id",
+		"workorder",
+		"tipo",
+		"descripcion",
+		"cantidad",
+		"precio_unitario",
+		"total",
+	)
+	search_fields = ("descripcion",)
+	list_filter = ("tipo",)
+	autocomplete_fields = ("workorder",)
