@@ -1,8 +1,18 @@
-/* Light admin theme */
-:root{ --tp-primary:#0b5ed7; --tp-secondary:#6610f2; --bg:#f7f9fc; }
-body, #container{ background: var(--bg) !important; }
-#header{ background: linear-gradient(135deg, var(--tp-primary), var(--tp-secondary)) !important; }
+/* Light admin theme with matte grey */
+:root{ --pg-bg:#e5e7eb; --pg-header-a:#374151; --pg-header-b:#111827; --pg-text:#0f172a; }
+body, #container{ background: var(--pg-bg) !important; font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+#header{ background: linear-gradient(135deg, var(--pg-header-a), var(--pg-header-b)) !important; }
 #header #branding h1, #header a:link, #header a:visited{ color:#fff !important; }
-.module, .card, .content, .dashboard .module{ border-radius:10px; }
-.submit-row input{ border-radius:8px; }
+/* Enlarge list actions/buttons */
+.object-tools a.addlink, .object-tools a.historylink, .object-tools a.viewsitelink{
+	padding:9px 14px; border-radius:10px; font-weight:600;
+}
+#changelist .actions select, #changelist .actions .button{
+	height:42px; border-radius:10px; font-weight:600;
+}
+#changelist .results th, #changelist .results td{ padding:12px 10px; }
+/* Remove stark white cards */
+.module, .content, .dashboard .module{ border-radius:12px; background:#f3f4f6; }
+/* Buttons radius */
+.submit-row input{ border-radius:10px; padding:10px 16px; font-weight:600; }
 .breadcrumbs{ background: transparent; }

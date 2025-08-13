@@ -35,9 +35,10 @@ class WorkOrderAdmin(admin.ModelAdmin):
 	def acciones(self, obj: WorkOrder):
 		url_print = reverse("print_ot", args=[obj.id])
 		url_pdf = reverse("pdf_ot", args=[obj.id])
+		btn = 'style="display:inline-block;margin-right:6px;padding:6px 10px;border-radius:10px;border:1px solid #cbd5e1;text-decoration:none"'
 		return format_html(
-			'<a class="button" href="{}" target="_blank">Imprimir</a> '
-			'<a class="button" href="{}" target="_blank">PDF</a>',
+			f'<a {btn} href="{{}}" target="_blank">Imprimir</a>'
+			f'<a {btn} href="{{}}" target="_blank">PDF</a>',
 			url_print,
 			url_pdf,
 		)
