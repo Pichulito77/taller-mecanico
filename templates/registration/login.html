@@ -1,0 +1,39 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Iniciar sesión · Taller PG</title>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link href="{% static 'css/app.css' %}" rel="stylesheet">
+	<style>
+		.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:#0b1020}
+		.login-card{width:100%;max-width:420px;background:#111827;border-radius:12px;padding:24px;box-shadow:0 8px 24px rgba(0,0,0,.35);color:#e5e7eb}
+		.login-card h1{font-size:20px;margin:0 0 12px}
+		.form-control{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #334155;background:#0f172a;color:#e5e7eb}
+		.form-control:focus{outline:3px solid rgba(37,99,235,.4);outline-offset:1px}
+		.btn-primary{width:100%;margin-top:10px}
+		.small{color:#94a3b8;font-size:.9rem}
+	</style>
+</head>
+<body>
+	<div class="login-wrap">
+		<div class="login-card">
+			<h1>Taller PG</h1>
+			<form method="post" action="{% url 'login' %}">
+				{% csrf_token %}
+				<input type="hidden" name="next" value="/">
+				<label class="small" for="id_username">Usuario</label>
+				<input class="form-control" id="id_username" name="username" type="text" autocomplete="username" required>
+				<label class="small" for="id_password">Contraseña</label>
+				<input class="form-control" id="id_password" name="password" type="password" autocomplete="current-password" required>
+				<button class="btn btn-primary" type="submit">Iniciar sesión</button>
+			</form>
+			{% if form and form.errors %}
+				<div class="small" style="color:#fecaca;margin-top:8px;">Credenciales inválidas</div>
+			{% endif %}
+		</div>
+	</div>
+</body>
+</html>
