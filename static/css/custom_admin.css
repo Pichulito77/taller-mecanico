@@ -74,3 +74,12 @@ fieldset,
 .pg-toolbar a{display:inline-flex;align-items:center;gap:.4rem;padding:.45rem .8rem;border-radius:.6rem;border:1px solid #2a2a2a;background:#2563EB;color:#fff !important;font-weight:700;text-decoration:none !important}
 .pg-toolbar .object-tools a:hover,
 .pg-toolbar a:hover{background:#1D4ED8}
+
+/* Badges for estados in changelist */
+.pg-badge{display:inline-block;padding:.2rem .5rem;border-radius:999px;font-weight:700;font-size:.75rem;line-height:1}
+.pg-badge--pendiente,.pg-badge--creada{background:#4b5563;color:#f3f4f6}
+.pg-badge--proceso,.pg-badge--en_proceso,.pg-badge--en-curso{background:#F59E0B;color:#111827}
+.pg-badge--finalizada{background:#16A34A;color:#052e16}
+.pg-badge--entregada{background:#2563EB;color:#e8f0ff}
+.pg-row-actions{display:inline-flex;gap:6px;margin-left:8px}
+.pg-row-actions .btn{padding:.3rem .55rem;border-radius:.5rem;font-size:.8rem}
