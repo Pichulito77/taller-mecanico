@@ -24,6 +24,11 @@ class PartAdmin(admin.ModelAdmin):
 	ordering = ("sku",)
 	list_editable = ("stock_minimo", "precio_lista")
 
+	def get_model_perms(self, request):
+		if not request.user.is_superuser:
+			return {}
+		return super().get_model_perms(request)
+
 
 @admin.register(InventoryMove)
 class InventoryMoveAdmin(admin.ModelAdmin):
@@ -31,3 +36,8 @@ class InventoryMoveAdmin(admin.ModelAdmin):
 	search_fields = ("repuesto__sku", "repuesto__nombre", "tipo")
 	list_filter = ("tipo",)
 	ordering = ("-fecha",)
+
+	def get_model_perms(self, request):
+		if not request.user.is_superuser:
+			return {}
+		return super().get_model_perms(request)

@@ -64,3 +64,8 @@ class WorkOrderItemAdmin(admin.ModelAdmin):
 	search_fields = ("descripcion",)
 	list_filter = ("tipo",)
 	autocomplete_fields = ("workorder",)
+
+	def get_model_perms(self, request):
+		if not request.user.is_superuser:
+			return {}
+		return super().get_model_perms(request)
