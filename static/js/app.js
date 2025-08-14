@@ -30,20 +30,26 @@ window.PG = (function(){
 		const cl = document.getElementById('changelist');
 		if (!cl) return;
 		const add = document.querySelector('.object-tools .addlink, .addlink');
-		if (!add) return;
 		const path = location.pathname;
 		let label = 'Crear nuevo';
 		if (path.includes('/admin/workorders/workorder/')) label = 'Crear nueva orden de trabajo';
 		else if (path.includes('/admin/customers/cliente/')) label = 'Crear nuevo cliente';
 		else if (path.includes('/admin/customers/vehiculo/')) label = 'Crear nuevo vehículo';
-		// Create floating action button in top-right
-		const fab = document.createElement('a');
-		fab.href = add.getAttribute('href');
-		fab.className = 'pg-fab';
-		fab.title = label;
-		fab.setAttribute('aria-label', label);
-		fab.textContent = '+';
-		document.body.appendChild(fab);
+		if (add){
+			const fab = document.createElement('a');
+			fab.href = add.getAttribute('href');
+			fab.className = 'pg-fab';
+			fab.title = label;
+			fab.setAttribute('aria-label', label);
+			fab.textContent = '+';
+			document.body.appendChild(fab);
+		}
+		// Toggle filters
+		const btnFilters = document.getElementById('pg-toggle-filters');
+		const searchPanel = document.getElementById('changelist-search');
+		if (btnFilters && searchPanel){
+			btnFilters.addEventListener('click', (e)=>{ e.preventDefault(); searchPanel.hidden = !searchPanel.hidden; });
+		}
 	};
 
 	// Admin: change form enhancements (fieldsets to tabs)

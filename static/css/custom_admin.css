@@ -65,3 +65,12 @@ fieldset,
 /* Keep breadcrumbs visible on dark */
 .breadcrumbs{ background:#1E1E1E !important; color:#cbd5e1 !important; border-bottom:1px solid #2a2a2a !important; }
 .breadcrumbs a{ color:#E5E7EB !important; }
+
+/* Toolbar wrapper */
+.pg-toolbar{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-bottom:8px}
+.pg-toolbar .object-tools{margin:0}
+.pg-toolbar .object-tools li{display:inline-block}
+.pg-toolbar .object-tools a,
+.pg-toolbar a{display:inline-flex;align-items:center;gap:.4rem;padding:.45rem .8rem;border-radius:.6rem;border:1px solid #2a2a2a;background:#2563EB;color:#fff !important;font-weight:700;text-decoration:none !important}
+.pg-toolbar .object-tools a:hover,
+.pg-toolbar a:hover{background:#1D4ED8}
