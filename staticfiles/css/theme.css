@@ -1,0 +1,14 @@
+/* Gradient theme */
+:root{ --tp-primary:#0b5ed7; --tp-secondary:#6610f2; }
+body.login, body.jazzmin-login{ background: linear-gradient(135deg, var(--tp-primary), var(--tp-secondary)); }
+.login .card, .jazzmin-login .card{ border-radius:10px; }
+
+/* Buttons */
+.btn, .button, .submit-row input{ border-radius:8px !important; }
+
+/* Header brand */
+.navbar{ background: linear-gradient(135deg, var(--tp-primary), var(--tp-secondary)) !important; }
+.navbar .navbar-brand{ font-weight:800; letter-spacing:.5px; }
+
+/* Home launcher alignment overrides if loaded there */
+.launcher .card{ border:1px solid #ddd;border-radius:10px }
