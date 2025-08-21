@@ -1,6 +1,7 @@
-from django.core.management.base import BaseCommand
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
+from django.core.management.base import BaseCommand
+
 from customers.models import Cliente, Vehiculo
 
 
@@ -22,7 +23,11 @@ class Command(BaseCommand):
             admin_group.permissions.add(*perm_map.values())
 
             # Recepcionista: add, change, view
-            for codename in (f"add_{model._meta.model_name}", f"change_{model._meta.model_name}", f"view_{model._meta.model_name}"):
+            for codename in (
+                f"add_{model._meta.model_name}",
+                f"change_{model._meta.model_name}",
+                f"view_{model._meta.model_name}",
+            ):
                 if codename in perm_map:
                     recep_group.permissions.add(perm_map[codename])
 

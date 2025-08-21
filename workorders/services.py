@@ -1,8 +1,10 @@
 from decimal import Decimal
-from django.db import transaction
+
 from django.core.exceptions import ValidationError
+from django.db import transaction
+
+from inventory.models import InventoryMove, Part
 from workorders.models import WorkOrder, WorkOrderItem
-from inventory.models import Part, InventoryMove
 
 
 @transaction.atomic
@@ -19,7 +21,9 @@ def finalize_workorder_and_deduct_inventory(ot: WorkOrder, user_id: int | None =
     for it in items:
         if not it.repuesto_id:
             continue
-        parts_needed[it.repuesto_id] = parts_needed.get(it.repuesto_id, Decimal("0")) + (it.cantidad or 0)
+        parts_needed[it.repuesto_id] = parts_needed.get(it.repuesto_id, Decimal("0")) + (
+            it.cantidad or 0
+        )
 
     parts = {p.id: p for p in Part.objects.filter(id__in=parts_needed.keys())}
     for repuesto_id, qty_needed in parts_needed.items():

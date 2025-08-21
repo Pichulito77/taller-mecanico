@@ -1,7 +1,7 @@
-from decimal import Decimal
 from django.db import transaction
 from rest_framework import serializers
-from .models import Quote, QuoteItem, Invoice, InvoiceItem
+
+from .models import Invoice, InvoiceItem, Quote, QuoteItem
 
 
 class QuoteItemSerializer(serializers.ModelSerializer):
@@ -98,7 +98,9 @@ class InvoiceSerializer(serializers.ModelSerializer):
 
 
 @transaction.atomic
-def emit_invoice_from_quote(quote: Quote, numero_factura: str, emitida_por_user_id: int | None) -> Invoice:
+def emit_invoice_from_quote(
+    quote: Quote, numero_factura: str, emitida_por_user_id: int | None
+) -> Invoice:
     # Crear factura copiando header
     inv = Invoice.objects.create(
         numero=numero_factura,
@@ -129,5 +131,5 @@ def emit_invoice_from_quote(quote: Quote, numero_factura: str, emitida_por_user_
         )
     # Cambiar estado del presupuesto
     quote.estado = "aprobado"
-    quote.save(update_fields=["estado"]) 
+    quote.save(update_fields=["estado"])
     return inv

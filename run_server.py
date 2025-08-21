@@ -1,5 +1,4 @@
 import os
-import sys
 import time
 import webbrowser
 from pathlib import Path
@@ -17,6 +16,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
 import django  # noqa: E402
 from django.core.management import call_command  # noqa: E402
 from waitress import serve  # noqa: E402
+
 from backend.wsgi import application  # noqa: E402
 
 
@@ -42,10 +42,13 @@ def main() -> None:
     url = f"http://{host}:{port}/admin/"
     # Open browser shortly after start
     if os.name == "nt":
+
         def _open():
             time.sleep(1.5)
             webbrowser.open(url)
+
         import threading
+
         threading.Thread(target=_open, daemon=True).start()
     print(f"Starting Taller PG at {url}")
     serve(application, host=host, port=port)

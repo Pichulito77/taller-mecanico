@@ -1,6 +1,8 @@
 from django.db import models
+from django.db.models import DecimalField, F
+
 from customers.models import Cliente, Vehiculo
-from django.db.models import F, DecimalField
+
 try:
     from django.db.models import GeneratedField  # Django 5+
 except Exception:  # pragma: no cover
@@ -11,7 +13,9 @@ class Quote(models.Model):  # presupuesto
     id = models.BigAutoField(db_column="presupuesto_id", primary_key=True)
     numero = models.CharField(max_length=30, unique=True)
     cliente = models.ForeignKey(Cliente, on_delete=models.RESTRICT, db_column="cliente_id")
-    vehiculo = models.ForeignKey(Vehiculo, on_delete=models.SET_NULL, null=True, db_column="vehiculo_id")
+    vehiculo = models.ForeignKey(
+        Vehiculo, on_delete=models.SET_NULL, null=True, db_column="vehiculo_id"
+    )
     creado_por_user_id = models.BigIntegerField(db_column="creado_por_user_id", null=True)
     ESTADOS = (
         ("borrador", "Borrador"),
@@ -39,7 +43,9 @@ class Quote(models.Model):  # presupuesto
 
 class QuoteItem(models.Model):  # presupuesto_item
     id = models.BigAutoField(db_column="presupuesto_item_id", primary_key=True)
-    presupuesto = models.ForeignKey(Quote, on_delete=models.CASCADE, db_column="presupuesto_id", related_name="items")
+    presupuesto = models.ForeignKey(
+        Quote, on_delete=models.CASCADE, db_column="presupuesto_id", related_name="items"
+    )
     TIPO = (("repuesto", "Repuesto"), ("mano_obra", "Mano de obra"))
     tipo = models.CharField(max_length=12, choices=TIPO)
     repuesto_id = models.BigIntegerField(null=True, blank=True)
@@ -55,7 +61,9 @@ class QuoteItem(models.Model):  # presupuesto_item
             db_column="total",
         )
     else:
-        total = models.DecimalField(max_digits=14, decimal_places=2, editable=False, db_column="total")
+        total = models.DecimalField(
+            max_digits=14, decimal_places=2, editable=False, db_column="total"
+        )
 
     class Meta:
         db_table = "presupuesto_item"
@@ -67,8 +75,12 @@ class Invoice(models.Model):  # factura
     id = models.BigAutoField(db_column="factura_id", primary_key=True)
     numero = models.CharField(max_length=30, unique=True)
     cliente = models.ForeignKey(Cliente, on_delete=models.RESTRICT, db_column="cliente_id")
-    vehiculo = models.ForeignKey(Vehiculo, on_delete=models.SET_NULL, null=True, db_column="vehiculo_id")
-    presupuesto = models.ForeignKey(Quote, on_delete=models.SET_NULL, null=True, db_column="presupuesto_id")
+    vehiculo = models.ForeignKey(
+        Vehiculo, on_delete=models.SET_NULL, null=True, db_column="vehiculo_id"
+    )
+    presupuesto = models.ForeignKey(
+        Quote, on_delete=models.SET_NULL, null=True, db_column="presupuesto_id"
+    )
     ot_id = models.BigIntegerField(db_column="ot_id", null=True)
     emitida_por_user_id = models.BigIntegerField(db_column="emitida_por_user_id", null=True)
     estado = models.CharField(max_length=10)
@@ -87,7 +99,9 @@ class Invoice(models.Model):  # factura
 
 class InvoiceItem(models.Model):  # factura_item
     id = models.BigAutoField(db_column="factura_item_id", primary_key=True)
-    factura = models.ForeignKey(Invoice, on_delete=models.CASCADE, db_column="factura_id", related_name="items")
+    factura = models.ForeignKey(
+        Invoice, on_delete=models.CASCADE, db_column="factura_id", related_name="items"
+    )
     TIPO = (("repuesto", "Repuesto"), ("mano_obra", "Mano de obra"))
     tipo = models.CharField(max_length=12, choices=TIPO)
     repuesto_id = models.BigIntegerField(null=True, blank=True)
@@ -103,7 +117,9 @@ class InvoiceItem(models.Model):  # factura_item
             db_column="total",
         )
     else:
-        total = models.DecimalField(max_digits=14, decimal_places=2, editable=False, db_column="total")
+        total = models.DecimalField(
+            max_digits=14, decimal_places=2, editable=False, db_column="total"
+        )
 
     class Meta:
         db_table = "factura_item"

@@ -1,5 +1,6 @@
 from django.db import models
-from django.db.models import F, DecimalField
+from django.db.models import DecimalField, F
+
 try:
     from django.db.models import GeneratedField  # Django 5+
 except Exception:  # pragma: no cover
@@ -43,7 +44,9 @@ class InventoryMove(models.Model):
             db_column="total_costo",
         )
     else:
-        total_costo = models.DecimalField(max_digits=14, decimal_places=2, editable=False, db_column="total_costo")
+        total_costo = models.DecimalField(
+            max_digits=14, decimal_places=2, editable=False, db_column="total_costo"
+        )
     referencia = models.TextField(null=True, blank=True)
     ot_id = models.BigIntegerField(null=True, blank=True)
     user_id = models.BigIntegerField(null=True, blank=True)

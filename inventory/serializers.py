@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Part, InventoryMove
+
+from .models import InventoryMove, Part
 
 
 class PartSerializer(serializers.ModelSerializer):

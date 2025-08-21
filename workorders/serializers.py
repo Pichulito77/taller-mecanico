@@ -1,6 +1,8 @@
 from decimal import Decimal
+
 from django.db import transaction
 from rest_framework import serializers
+
 from .models import WorkOrder, WorkOrderItem
 from .services import finalize_workorder_and_deduct_inventory
 
@@ -57,8 +59,10 @@ class WorkOrderSerializer(serializers.ModelSerializer):
 
     def validate_estado(self, value: str) -> str:
         instance: WorkOrder | None = self.instance
-        if instance and value != instance.estado and not WorkOrder.is_valid_transition(
-            instance.estado, value
+        if (
+            instance
+            and value != instance.estado
+            and not WorkOrder.is_valid_transition(instance.estado, value)
         ):
             raise serializers.ValidationError("Transición de estado inválida")
         return value

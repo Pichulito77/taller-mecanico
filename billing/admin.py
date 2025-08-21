@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Quote, QuoteItem, Invoice, InvoiceItem
+
+from .models import Invoice, InvoiceItem, Quote, QuoteItem
 
 
 @admin.register(Quote)
@@ -13,7 +14,15 @@ class QuoteAdmin(admin.ModelAdmin):
 
 @admin.register(QuoteItem)
 class QuoteItemAdmin(admin.ModelAdmin):
-    list_display = ("id", "presupuesto", "tipo", "descripcion", "cantidad", "precio_unitario", "total")
+    list_display = (
+        "id",
+        "presupuesto",
+        "tipo",
+        "descripcion",
+        "cantidad",
+        "precio_unitario",
+        "total",
+    )
     search_fields = ("descripcion",)
     list_filter = ("tipo",)
 

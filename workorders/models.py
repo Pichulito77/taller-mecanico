@@ -1,7 +1,8 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import DecimalField, F
 from django.utils.translation import gettext_lazy as _
-from django.db.models import F, DecimalField
+
 try:
     # Django 5+: GeneratedField available
     from django.db.models import GeneratedField  # type: ignore
