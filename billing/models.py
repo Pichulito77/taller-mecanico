@@ -1,7 +1,10 @@
 from django.db import models
 from django.db.models import DecimalField, F
+import os
 
 from customers.models import Cliente, Vehiculo
+
+MANAGED = os.getenv("USE_SQLITE", "false").lower() == "true"
 
 try:
     from django.db.models import GeneratedField  # Django 5+
@@ -33,7 +36,7 @@ class Quote(models.Model):  # presupuesto
 
     class Meta:
         db_table = "presupuesto"
-        managed = False
+        managed = MANAGED
         ordering = ["-id"]
 
     def clean(self) -> None:
@@ -67,7 +70,7 @@ class QuoteItem(models.Model):  # presupuesto_item
 
     class Meta:
         db_table = "presupuesto_item"
-        managed = False
+        managed = MANAGED
         ordering = ["id"]
 
 
@@ -93,7 +96,7 @@ class Invoice(models.Model):  # factura
 
     class Meta:
         db_table = "factura"
-        managed = False
+        managed = MANAGED
         ordering = ["-id"]
 
 
@@ -123,5 +126,5 @@ class InvoiceItem(models.Model):  # factura_item
 
     class Meta:
         db_table = "factura_item"
-        managed = False
+        managed = MANAGED
         ordering = ["id"]

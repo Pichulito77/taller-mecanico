@@ -4,26 +4,11 @@ from django.utils.translation import gettext_lazy as _
 from .models import InventoryMove, Part
 
 
-class LowStockFilter(admin.SimpleListFilter):
-    title = _("Stock bajo")
-    parameter_name = "low_stock"
-
-    def lookups(self, request, model_admin):
-        return (("1", _("Solo bajo stock")),)
-
-    def queryset(self, request, queryset):
-        if self.value() == "1":
-            return queryset.filter(stock_actual__lt=admin.models.F("stock_minimo"))
-        return queryset
-
-
 @admin.register(Part)
 class PartAdmin(admin.ModelAdmin):
-    list_display = ("id", "sku", "nombre", "stock_actual", "stock_minimo", "precio_lista")
+    list_display = ("id", "sku", "nombre", "costo_unitario")
     search_fields = ("sku", "nombre")
-    list_filter = ("ubicacion", LowStockFilter)
     ordering = ("sku",)
-    list_editable = ("stock_minimo", "precio_lista")
 
     def get_model_perms(self, request):
         if not request.user.is_superuser:
@@ -41,7 +26,6 @@ class InventoryMoveAdmin(admin.ModelAdmin):
         "costo_unitario",
         "total_costo",
         "fecha",
-        "ot_id",
     )
     search_fields = ("repuesto__sku", "repuesto__nombre", "tipo")
     list_filter = ("tipo",)

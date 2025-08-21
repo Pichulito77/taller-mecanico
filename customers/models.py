@@ -1,6 +1,9 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+import os
+
+MANAGED = os.getenv("USE_SQLITE", "false").lower() == "true"
 
 
 class Cliente(models.Model):
@@ -19,7 +22,7 @@ class Cliente(models.Model):
 
     class Meta:
         db_table = "cliente"
-        managed = False  # table managed externally (SQL schema)
+        managed = MANAGED  # managed externally en PG; gestionado por Django en SQLite
         verbose_name = "Cliente"
         verbose_name_plural = "Clientes"
         ordering = ["razon_social", "id"]
@@ -47,7 +50,7 @@ class Vehiculo(models.Model):
 
     class Meta:
         db_table = "vehiculo"
-        managed = False  # table managed externally (SQL schema)
+        managed = MANAGED
         verbose_name = "Vehículo"
         verbose_name_plural = "Vehículos"
         indexes = [
